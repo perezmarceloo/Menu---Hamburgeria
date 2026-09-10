@@ -8,7 +8,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 
 cardapio = {
-    "Refri": [":cup_with_straw: Refri de Cola", ":cup_with_straw: Refri de Laranja", ":cup_with_straw: Refri de Uva", ":cup_with_straw: Refri de Guaraná", ":cup_with_straw: Refri de Limão"],
+    "Refri": [":cup_with_straw: Refri de Cola", ":cup_with_straw: Refri de Laranja", ":cup_with_straw: Refri de Uva", ":cup_with_straw: Refri de Guaraná", ":cup_with_straw: Refri de Limão", ":cup_with_straw: Refri de Maça"],
     "Hamburgers": [":hamburger: Hamburguer de Frango", ":hamburger: Hamburguer de Carne", ":hamburger: Hamburguer de Vegetariano", ":hamburger: Hamburguer de Peixe", ":hamburger: Hamburguer de Bacon"],
     "Acompanhamento": [":fries: Batata Frita", ":onion: Anéis de Cebola", ":cheese: Palitos de Queijo", ":salad: Salada", ":chicken: Frango empanado"]
 }
