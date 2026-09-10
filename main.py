@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import time
+import pygame
 
 
 intents = discord.Intents.default()
