@@ -5,4 +5,5 @@ Aqui, será criado/ é um site e bot do Discord temático de Hamburgerias! O có
 
 * Funcionalidade 1 
 * Funcionalidade 2
+* Funcionalidade 3
 
