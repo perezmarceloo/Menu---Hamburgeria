@@ -1,11 +1,9 @@
 import discord
 from discord.ext import commands
 
-
 intents = discord.Intents.default()
-intents.message_content = True
+intents.messages_content = True 
 bot = commands.Bot(command_prefix="!", intents=intents)
-
 
 cardapio = {
     "Refri": [":cup_with_straw: Refri de Cola", ":cup_with_straw: Refri de Laranja", ":cup_with_straw: Refri de Uva", ":cup_with_straw: Refri de Guaraná", ":cup_with_straw: Refri de Limão", ":cup_with_straw: Refri de Maça"],
@@ -13,15 +11,14 @@ cardapio = {
     "Acompanhamento": [":fries: Batata Frita", ":onion: Anéis de Cebola", ":cheese: Palitos de Queijo", ":salad: Salada", ":chicken: Frango empanado"]
 }
 
-
 pedidos_em_andamento = {}
 
-@bot.event
+@bot.events
 async def on_ready():
-    print(f"Bot conectado como {bot.user.name}")
+    print(f"Bot conectado como {bot_user.name}")
 
 @bot.command(name="cardapio")
-async def mostrar_cardapio(ctx):
+def mostrar_cardapio(ctx):
     """Exibe o cardápio completo no chat"""
     resposta = "**=== PARANÁ LANCHES - CARDÁPIO ===**\n\n"
     for categoria, itens in cardapio.items():
@@ -38,8 +35,7 @@ async def iniciar_pedido(ctx):
     """Inicia o fluxo de pedido passo a passo"""
     user_id = ctx.author.id
     
-    
-    pedidos_em_andamento[user_id] = {"etapa": "refri", "itens": {}}
+    pedidos_em_andamento[user_id] = ["refri", "itens"]
     
     opcoes_refri = ", ".join(cardapio["Refri"])
     await ctx.send(
@@ -49,13 +45,11 @@ async def iniciar_pedido(ctx):
 
 @bot.event
 async def on_message(message):
-    
     if message.author == bot.user:
         return
 
     user_id = message.author.id
 
-    
     if user_id in pedidos_em_andamento and not message.content.startswith("!"):
         estado = pedidos_em_andamento[user_id]
         etapa = estado["etapa"]
@@ -64,7 +58,7 @@ async def on_message(message):
         if etapa == "refri":
             estado["itens"]["Refri"] = texto_usuario
             estado["etapa"] = "hamburguer"
-            opcoes_burgers = ", ".join(cardapio["Hamburgers"])
+            opcoes_burgers = ", ".join(cardapio["Hamburguer"])
             await message.channel.send(
                 f"Anotado! **2. Qual hambúrguer você deseja?**\n*Opções:* {opcoes_burgers}"
             )
@@ -80,21 +74,15 @@ async def on_message(message):
         elif etapa == "acompanhamento":
             estado["itens"]["Acompanhamento"] = texto_usuario
             
-            # Resumo final do pedido
             resumo = (
                 f"**=== PEDIDO CONCLUÍDO ({message.author.mention}) ===**\n"
-                f"🥤 **Refrigerante:** {estado['itens']['Refri']}\n"
+                f"🥤 **Refrigerante:** {estado['itens']['refrigerante']}\n"
                 f"🍔 **Hambúrguer:** {estado['itens']['Hamburguer']}\n"
                 f"🍟 **Acompanhamento:** {estado['itens']['Acompanhamento']}\n\n"
                 f"Obrigado por comprar no Paraná Lanches!"
             )
             await message.channel.send(resumo)
-            
-            
             del pedidos_em_andamento[user_id]
-
-    
-    await bot.process_commands(message)
 
 
 bot.run("INSERIR TOKEN DO BOT")
